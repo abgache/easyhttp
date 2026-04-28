@@ -1,7 +1,7 @@
 # EasyHTTP  
 ## The best HTTP server for pentesting and red teaming  
 
-### Version: ``1.0.0``  
+### Version: ``1.0.1``  
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/) 
 
