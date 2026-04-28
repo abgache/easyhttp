@@ -1,0 +1,21 @@
+#!/bin/bash
+echo "Updating EasyHTTP in /usr/share/easyhttp ..."
+sudo rm /usr/share/easyhttp/main.py
+sudo rm /usr/share/easyhttp/README.md
+sudo rm /usr/share/easyhttp/requirements.txt
+sudo rm /usr/share/easyhttp/bin/easyhttp
+sudo rm /usr/share/easyhttp/scripts/http_redirect.py
+sudo rm /usr/share/easyhttp/scripts/scripts.py
+sudo rm /usr/share/easyhttp/scripts/http_logger.py
+wget https://github.com/abgache/easyhttp/raw/refs/heads/main/main.py -O /usr/share/easyhttp/main.py
+wget https://github.com/abgache/easyhttp/raw/refs/heads/main/README.md -O /usr/share/easyhttp/README.md
+wget https://github.com/abgache/easyhttp/raw/refs/heads/main/requirements.txt -O /usr/share/easyhttp/requirements.txt
+wget https://github.com/abgache/easyhttp/raw/refs/heads/main/bin/easyhttp -O /usr/share/easyhttp/bin/easyhttp
+wget https://github.com/abgache/easyhttp/raw/refs/heads/main/bin/easyhttp-update -O /usr/share/easyhttp/bin/easyhttp-update
+wget https://github.com/abgache/easyhttp/raw/refs/heads/main/scripts/http_redirect.py -O /usr/share/easyhttp/scripts/http_redirect.py
+wget https://github.com/abgache/easyhttp/raw/refs/heads/main/scripts/scripts.py -O /usr/share/easyhttp/scripts/scripts.py
+wget https://github.com/abgache/easyhttp/raw/refs/heads/main/scripts/http_logger.py -O /usr/share/easyhttp/scripts/http_logger.py
+chmod 555 /usr/share/easyhttp/main.py
+chmod 555 /usr/share/easyhttp/bin/easyhttp
+chmod 555 /usr/share/easyhttp/bin/easyhttp-update
+echo "For compatibility reasons, requirements.txt is not automatically installed, I you get any error when running easyhttp try running pip install -r requirements.txt"
