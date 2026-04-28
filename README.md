@@ -22,6 +22,7 @@ age: main.py [-h] [-p PORT] [-f] [-l] [-r REDIRECT_LOCATION]
 > -l, --logger          Logger server  
 > -r REDIRECT, --redirect REDIRECT  
 >                       Redirect server  
+  
 **Update:**  
 ```bash  
 sudo easyhttp-update  
