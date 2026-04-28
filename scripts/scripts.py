@@ -50,7 +50,7 @@ def main():
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        print(f"{Fore.RED}[-]{Style.RESET_ALL} Server stopped by user")
+        print(f"\r{Fore.RED}[-]{Style.RESET_ALL} Server stopped by user")
         server.server_close()
     except Exception as e:
         print(f"{Fore.RED}[-]{Style.RESET_ALL} An error occurred: {e}")
