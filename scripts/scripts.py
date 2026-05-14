@@ -32,6 +32,14 @@ def main():
 
     args = parser.parse_args()
     port = args.port if args.port else 8000
+    try:
+        port = int(port)
+        if port < 1 or port > 65535:
+            print(f"{Fore.RED}[-]{Style.RESET_ALL} Port number must be between 1 and 65535, actually got {port}")
+            exit(6)
+    except ValueError as ve:
+        print(f"{Fore.RED}[-]{Style.RESET_ALL} Invalid port number: {ve}")
+        exit(5)
     if args.logger:
         server = HTTPServer(("0.0.0.0", port), LoggerHandler)
     elif args.file:
@@ -40,7 +48,7 @@ def main():
         server = HTTPServer(("0.0.0.0", port), RedirectHandler(args.redirect))
     else:
         print(f"{Fore.RED}[-]{Style.RESET_ALL} Please specify a mode: --file, --logger or --redirect")
-        return
+        exit(4)
     print(f"{Fore.GREEN}[+]{Style.RESET_ALL} Started HTTP server on port {port} in {'logger' if args.logger else 'file' if args.file else 'redirect'} mode")
     
     ips = socket.gethostbyname_ex(socket.gethostname())[2]
