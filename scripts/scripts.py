@@ -3,13 +3,13 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from colorama import Fore, Style
 # idk why I did that but why not ig
 if __name__ == "__main__":
-    from ehttp.logger import LoggerHandler
-    from ehttp.redirect import RedirectHandler
-    from ehttp.custom import CustomHandler
+    from http_logger import LoggerHandler
+    from http_redirect import RedirectHandler
+    from http_custom import CustomHandler
 elif __name__ == "scripts.scripts":
-    from scripts.ehttp.logger import LoggerHandler
-    from scripts.ehttp.redirect import RedirectHandler
-    from scripts.ehttp.custom import CustomHandler
+    from scripts.http_logger import LoggerHandler
+    from scripts.http_redirect import create_handler as create_redirect_handler
+    from scripts.http_custom import create_handler as create_custom_handler
 else:
     print(f"{Fore.RED}[-]{Style.RESET_ALL} Error: Cannot determine import path for handlers")
     exit(1)
@@ -53,10 +53,10 @@ def main():
     elif args.file:
         server = HTTPServer(("0.0.0.0", port), SimpleHTTPRequestHandler)
     elif args.redirect:
-        server = HTTPServer(("0.0.0.0", port), RedirectHandler(args.redirect))
+        server = HTTPServer(("0.0.0.0", port), create_redirect_handler(args.redirect))
     elif args.custom:
         # args.custom = code | args.body = body
-        server = HTTPServer(("0.0.0.0", port), CustomHandler(int(args.custom), args.body))
+        server = HTTPServer(("0.0.0.0", port), create_custom_handler(int(args.custom), args.body))
     else:
         print(f"{Fore.RED}[-]{Style.RESET_ALL} Please specify a mode: --file, --logger or --redirect")
         exit(4)
