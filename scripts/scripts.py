@@ -3,11 +3,13 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from colorama import Fore, Style
 # idk why I did that but why not ig
 if __name__ == "__main__":
-    from http_logger import LoggerHandler
-    from http_redirect import RedirectHandler
+    from ehttp.logger import LoggerHandler
+    from ehttp.redirect import RedirectHandler
+    from ehttp.custom import CustomHandler
 elif __name__ == "scripts.scripts":
-    from scripts.http_logger import LoggerHandler
-    from scripts.http_redirect import RedirectHandler
+    from scripts.ehttp.logger import LoggerHandler
+    from scripts.ehttp.redirect import RedirectHandler
+    from scripts.ehttp.custom import CustomHandler
 else:
     print(f"{Fore.RED}[-]{Style.RESET_ALL} Error: Cannot determine import path for handlers")
     exit(1)
@@ -28,7 +30,8 @@ def main():
     parser.add_argument("-f","--file",help=f"Serve files from a directory",action="store_true")
     parser.add_argument("-l","--logger",help=f"Logger server",action="store_true")
     parser.add_argument("-r","--redirect",help=f"Redirect server")
-    #parser.add_argument("--cc",help=f"Custom response code")
+    parser.add_argument("-c","--custom",help=f"Custom response code")
+    parser.add_argument("--body",help=f"Custom body, only used with --custom")
 
     args = parser.parse_args()
     port = args.port if args.port else 8000
@@ -40,12 +43,20 @@ def main():
     except ValueError as ve:
         print(f"{Fore.RED}[-]{Style.RESET_ALL} Invalid port number: {ve}")
         exit(5)
+    
+    if args.body and not args.custom:
+        print(f"{Fore.RED}[-]{Style.RESET_ALL} --body can only be used with --custom")
+        exit(7)
+
     if args.logger:
         server = HTTPServer(("0.0.0.0", port), LoggerHandler)
     elif args.file:
         server = HTTPServer(("0.0.0.0", port), SimpleHTTPRequestHandler)
     elif args.redirect:
         server = HTTPServer(("0.0.0.0", port), RedirectHandler(args.redirect))
+    elif args.custom:
+        # args.custom = code | args.body = body
+        server = HTTPServer(("0.0.0.0", port), CustomHandler(int(args.custom), args.body))
     else:
         print(f"{Fore.RED}[-]{Style.RESET_ALL} Please specify a mode: --file, --logger or --redirect")
         exit(4)
