@@ -1,4 +1,4 @@
-import argparse, socket
+import argparse, socket, threading, time
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from colorama import Fore, Style
 # idk why I did that but why not ig
@@ -32,6 +32,7 @@ def main():
     parser.add_argument("-r","--redirect",help=f"Redirect server")
     parser.add_argument("-c","--custom",help=f"Custom response code")
     parser.add_argument("--body",help=f"Custom body, only used with --custom")
+    parser.add_argument("--lifetime", "-t",help=f"Server timeout in seconds (Default: No timeout)",type=int)
 
     args = parser.parse_args()
     port = args.port if args.port else 8000
@@ -56,17 +57,34 @@ def main():
         server = HTTPServer(("0.0.0.0", port), create_redirect_handler(args.redirect))
     elif args.custom:
         # args.custom = code | args.body = body
+        no_body_answers = [100, 101, 102, 204, 205, 304]
+        if args.body and int(args.custom) in no_body_answers:
+            print(f"{Fore.YELLOW}[!]{Style.RESET_ALL} Response code {args.custom} does not support a body, ignoring --body")
+            args.body = None
         server = HTTPServer(("0.0.0.0", port), create_custom_handler(int(args.custom), args.body))
     else:
         print(f"{Fore.RED}[-]{Style.RESET_ALL} Please specify a mode: --file, --logger or --redirect")
         exit(4)
-    print(f"{Fore.GREEN}[+]{Style.RESET_ALL} Started HTTP server on port {port} in {'logger' if args.logger else 'file' if args.file else 'redirect'} mode")
+    print(f"{Fore.GREEN}[+]{Style.RESET_ALL} Started HTTP server on port {port} in {'logger' if args.logger else 'file' if args.file else 'redirect'} mode, Ctrl+C to stop")
     
     ips = socket.gethostbyname_ex(socket.gethostname())[2]
     urls = [f"http://{ip}:{port}" for ip in ips]
     print(f"{Fore.CYAN}[i]{Style.RESET_ALL} Server running on: {', '.join(urls)}")
 
+
     try:
+        if args.lifetime:
+            if args.lifetime < 1:
+                print(f"{Fore.RED}[-]{Style.RESET_ALL} Lifetime must be a positive integer, actually got {args.lifetime}")
+                exit(8)
+            def shutdown_server():
+                print(f"{Fore.RED}[-]{Style.RESET_ALL} Lifetime reached ({args.lifetime}s), shutting down server...")
+                server.shutdown()
+                exit(0)
+            print(f"{Fore.YELLOW}[!]{Style.RESET_ALL} Server will automatically stop after {args.lifetime} seconds")
+            timer = threading.Timer(args.lifetime, shutdown_server)
+            timer.daemon = True
+            timer.start()
         server.serve_forever()
     except KeyboardInterrupt:
         print(f"\r{Fore.RED}[-]{Style.RESET_ALL} Server stopped by user")
