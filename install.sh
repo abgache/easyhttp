@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run this script as root or with sudo."
+  exit 1
+fi
 cd /usr/share
 git clone https://github.com/abgache/easyhttp.git
 cd easyhttp
