@@ -1,2 +1,16 @@
 #!/bin/bash
+if [ "$1" = "--update" ]; then
+  if [ "$EUID" -ne 0 ]; then
+    echo "run as root"
+    exit 1
+  fi
+  set -e
+  echo "Updating EasyHTTP..."
+  cd /usr/share/easyhttp
+  git pull --ff-only
+  chmod 755 /usr/share/easyhttp/main.py
+  install -m 755 /usr/share/easyhttp/bin/easyhttp /usr/local/bin/easyhttp
+  echo "Update done."
+  exit 0
+fi
 python3 /usr/share/easyhttp/main.py "$@"
