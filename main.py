@@ -1,9 +1,5 @@
 #!/bin/python
-try:
-    from colorama import init, Fore, Style, just_fix_windows_console
-except ImportError as e:
-    print(f"[-] Colorama library is not installed, please install all easyhttp dependencies.")
-    exit(1)
+from colorama import init, Fore, Style, just_fix_windows_console
 import scripts.scripts as utilities
 
 version = "1.3.1"
