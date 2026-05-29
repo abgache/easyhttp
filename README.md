@@ -1,7 +1,7 @@
 # EasyHTTP  
 ## The best HTTP server for pentesting and red teaming  
 
-### Version: ``1.3.0``  
+### Version: ``1.3.1``  
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/) 
 
@@ -13,7 +13,7 @@ It is a simple python-made HTTP server, for logging requests, file acces or redi
 Just run ``install.sh`` with sudo privileges.  
 One-liner:  
 ```bash
-curl -fsSL https://raw.githubusercontent.com/abgache/easyhttp/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/abgache/easyhttp/main/install.sh | sudo bash
 ```
 **Usage:**  
 ```bash
@@ -31,7 +31,7 @@ age: main.py [-h] [-p PORT] [-f] [-l] [-r REDIRECT_LOCATION]
 >  --body BODY           Custom body, only used with --custom  
 >  --lifetime LIFETIME, -t LIFETIME  
 >                        Server timeout in seconds (Default: No timeout)  
->  --update              Update EasyHTTP  
+>  --update              Update EasyHTTP
   
 **Update:**  
 ```bash  

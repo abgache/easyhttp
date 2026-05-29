@@ -15,16 +15,12 @@ else:
     exit(1)
 
 def banner(version):
-    banner= r"""   ____              __ _________________ 
-  / __/__ ____ __ __/ // /_  __/_  __/ _ \
- / _// _ `(_-</ // / _  / / /   / / / ___/
-/___/\_,_/___/\_, /_//_/ /_/   /_/ /_/    
-             /___/"""
+    banner= f"   ____{14*' '}__ _________________ \n  / __/__ ____ __ __/ // /_  __/_  __/ _ \\\n / _// _ `(_-</ // / _  / / /   / / / ___/\n/___/\_,_/___/\_, /_//_/ /_/   /_/ /_/    \n{13*' '}/___/"
     credit = f"\r             /___/{' ' * 16}By {Fore.BLUE}Abgache{Style.RESET_ALL}\n{' ' * 34}Version: {Fore.GREEN}{version}{Style.RESET_ALL}\n"
     print(banner, end="")
     print(credit)
 
-def main():
+def parse():
     parser = argparse.ArgumentParser(description="The best HTTP server for pentesting and red teaming")
     parser.add_argument("-p", "--port", help="Port to listen on")
     parser.add_argument("-f","--file",help=f"Serve files from a directory",action="store_true")
@@ -33,9 +29,12 @@ def main():
     parser.add_argument("-c","--custom",help=f"Custom response code")
     parser.add_argument("--body",help=f"Custom body, only used with --custom")
     parser.add_argument("--lifetime", "-t",help=f"Server timeout in seconds (Default: No timeout)",type=int)
+    return parser.parse_args()
 
-    args = parser.parse_args()
+def main():
+    args = parse()
     port = args.port if args.port else 8000
+    
     try:
         port = int(port)
         if port < 1 or port > 65535:
