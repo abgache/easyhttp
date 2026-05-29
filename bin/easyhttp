@@ -7,7 +7,8 @@ if [ "$1" = "--update" ]; then
   set -e
   echo "Updating EasyHTTP..."
   cd /usr/share/easyhttp
-  git pull --ff-only
+  git fetch origin
+  git reset --hard origin/main
   chmod 755 /usr/share/easyhttp/main.py
   install -m 755 /usr/share/easyhttp/bin/easyhttp /usr/local/bin/easyhttp
   echo "Update done."
