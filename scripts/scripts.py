@@ -15,7 +15,11 @@ else:
     exit(1)
 
 def banner(version):
-    banner= f"   ____{14*' '}__ _________________ \n  / __/__ ____ __ __/ // /_  __/_  __/ _ \\\n / _// _ `(_-</ // / _  / / /   / / / ___/\n/___/\_,_/___/\_, /_//_/ /_/   /_/ /_/    \n{13*' '}/___/"
+    banner= r"""   ____              __ _________________ 
+  / __/__ ____ __ __/ // /_  __/_  __/ _ \
+ / _// _ `(_-</ // / _  / / /   / / / ___/
+/___/\_,_/___/\_, /_//_/ /_/   /_/ /_/    
+             /___/"""
     credit = f"\r             /___/{' ' * 16}By {Fore.BLUE}Abgache{Style.RESET_ALL}\n{' ' * 34}Version: {Fore.GREEN}{version}{Style.RESET_ALL}\n"
     print(banner, end="")
     print(credit)
@@ -34,7 +38,6 @@ def parse():
 def main():
     args = parse()
     port = args.port if args.port else 8000
-    
     try:
         port = int(port)
         if port < 1 or port > 65535:

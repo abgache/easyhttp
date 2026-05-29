@@ -7,7 +7,6 @@ except ImportError as e:
 import scripts.scripts as utilities
 
 version = "1.3.1"
-print(len("              "))
 
 if __name__ == "__main__":
     try:
