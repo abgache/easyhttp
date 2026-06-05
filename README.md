@@ -32,6 +32,7 @@ age: main.py [-h] [-p PORT] [-f] [-l] [-r REDIRECT_LOCATION]
 >  --lifetime LIFETIME, -t LIFETIME  
 >                        Server timeout in seconds (Default: No timeout)  
 >  --update              Update EasyHTTP
+>  --logs                Save EasyHTTP logs to the logs file
   
 **Update:**  
 ```bash  

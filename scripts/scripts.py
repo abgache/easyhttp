@@ -26,13 +26,16 @@ def banner(version):
 
 def parse():
     parser = argparse.ArgumentParser(description="The best HTTP server for pentesting and red teaming")
+    # Server options
     parser.add_argument("-p", "--port", help="Port to listen on")
+    parser.add_argument("--lifetime", "-t",help=f"Server timeout in seconds (Default: No timeout)",type=int)
+    parser.add_argument("--logs",help=f"Save logs to file",action="store_true")
+    # Modes
     parser.add_argument("-f","--file",help=f"Serve files from a directory",action="store_true")
     parser.add_argument("-l","--logger",help=f"Logger server",action="store_true")
     parser.add_argument("-r","--redirect",help=f"Redirect server")
     parser.add_argument("-c","--custom",help=f"Custom response code")
     parser.add_argument("--body",help=f"Custom body, only used with --custom")
-    parser.add_argument("--lifetime", "-t",help=f"Server timeout in seconds (Default: No timeout)",type=int)
     return parser.parse_args()
 
 def main():
