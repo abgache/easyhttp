@@ -1,5 +1,5 @@
 # logger module v1.3
-from scripts.time_log import time_log_module as tlm, time_log_module_files as tlmf
+from log.time_log import time_log_module as tlm, time_log_module_files as tlmf
 import time, os
 import requests
 from urllib.parse import urlparse
