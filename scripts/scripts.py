@@ -29,7 +29,8 @@ def parse():
     # Server options
     parser.add_argument("-p", "--port", help="Port to listen on")
     parser.add_argument("--lifetime", "-t",help=f"Server timeout in seconds (Default: No timeout)",type=int)
-    parser.add_argument("--logs",help=f"Save logs to file",action="store_true")
+    parser.add_argument("--logs",help=f"Save logs to file",action="store_true") # Pas utilisé avec argparser, mais j'add pr le --help
+    parser.add_argument("--no-banner", help=f"Remove EasyHTTP banner",action="store_true") # Pareil
     # Modes
     parser.add_argument("-f","--file",help=f"Serve files from a directory",action="store_true")
     parser.add_argument("-l","--logger",help=f"Logger server",action="store_true")
@@ -46,7 +47,7 @@ def main():
             port = int(port)
         except NameError:
             sys=__import__("sys")
-            print(f"{Fore.RED}[-]{Style.RESET_ALL} The port ({"-p" if "-p" in sys.argv else "--port"}) has to be an integer, defaulting to 8000.")
+            print(f"{Fore.RED}[-]{Style.RESET_ALL} The port ({'-p' if '-p' in sys.argv else '--port'}) has to be an integer, defaulting to 8000.")
             port = 8000
         if port < 1 or port > 65535:
             print(f"{Fore.RED}[-]{Style.RESET_ALL} Port number must be between 1 and 65535, actually got {port}")
