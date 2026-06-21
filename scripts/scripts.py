@@ -42,7 +42,12 @@ def main():
     args = parse()
     port = args.port if args.port else 8000
     try:
-        port = int(port)
+        try:
+            port = int(port)
+        except NameError:
+            sys=__import__("sys")
+            print(f"{Fore.RED}[-]{Style.RESET_ALL} The port ({"-p" if "-p" in sys.argv else "--port"}) has to be an integer, defaulting to 8000.")
+            port = 8000
         if port < 1 or port > 65535:
             print(f"{Fore.RED}[-]{Style.RESET_ALL} Port number must be between 1 and 65535, actually got {port}")
             exit(6)
@@ -79,17 +84,25 @@ def main():
 
     try:
         if args.lifetime:
-            if args.lifetime < 1:
-                print(f"{Fore.RED}[-]{Style.RESET_ALL} Lifetime must be a positive integer, actually got {args.lifetime}")
-                exit(8)
-            def shutdown_server():
-                print(f"{Fore.RED}[-]{Style.RESET_ALL} Lifetime reached ({args.lifetime}s), shutting down server...")
-                server.shutdown()
-                exit(0)
-            print(f"{Fore.YELLOW}[!]{Style.RESET_ALL} Server will automatically stop after {args.lifetime} seconds")
-            timer = threading.Timer(args.lifetime, shutdown_server)
-            timer.daemon = True
-            timer.start()
+            try:
+                lifetime=int(args.lifetime)
+                c=True
+            except NameError:
+                print(f"{Fore.RED}[-]{Style.RESET_ALL} Lifetime must be an integer, starting without it.")
+                c=False
+            if c: # c = une var de debug, comme ça sa continue sans lifetime si ya NameError
+                del c
+                if lifetime < 1:
+                    print(f"{Fore.RED}[-]{Style.RESET_ALL} Lifetime must be a positive integer, actually got {lifetime}")
+                    exit(8)
+                def shutdown_server():
+                    print(f"{Fore.RED}[-]{Style.RESET_ALL} Lifetime reached ({lifetime}s), shutting down server...")
+                    server.shutdown()
+                    exit(0)
+                print(f"{Fore.YELLOW}[!]{Style.RESET_ALL} Server will automatically stop after {lifetime} seconds")
+                timer = threading.Timer(lifetime, shutdown_server)
+                timer.daemon = True
+                timer.start()
         server.serve_forever()
     except KeyboardInterrupt:
         print(f"\r{Fore.RED}[-]{Style.RESET_ALL} Server stopped by user")
